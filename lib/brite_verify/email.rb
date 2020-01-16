@@ -27,7 +27,7 @@ module BriteVerify
     end
 
     def connected
-      raw_email["connected"].downcase == "true" if raw_email["connected"]
+      available_connected_values.include?(raw_email["connected"]) if raw_email["connected"]
     end
 
     def duration
@@ -55,6 +55,10 @@ module BriteVerify
     def raw_email
       email_fetcher = EmailFetcher.new(@key)
       @raw_email ||= email_fetcher.fetch_raw_email(@address)
+    end
+
+    def available_connected_values
+      [true, "true", "TRUE"]
     end
   end
 end
